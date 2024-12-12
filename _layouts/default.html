@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
@@ -143,7 +143,80 @@
         </footer>
       </div>
     </div>
-
+    <script>
+      // JavaScript untuk menambahkan perubahan warna pada navbar saat scroll
+      const navbar = document.getElementById('navbar');
+      const menuButton = document.getElementById('menu-button');
+      const offcanvas = document.getElementById('offcanvas');
+      const closeButton = document.getElementById('close-button');
+      const offcanvasContent = document.getElementById('offcanvas-content');
+      const navbarLinks = navbar.getElementsByTagName('a');
+      const navbarbtn = document.getElementById('menu-button');
+      
+      // Show offcanvas on mobile
+      menuButton.addEventListener('click', () => {
+        offcanvas.classList.remove('hidden');
+        setTimeout(() => {
+          offcanvasContent.classList.remove('translate-x-full');
+        }, 10);
+      });
+  
+      // Close offcanvas on mobile
+      closeButton.addEventListener('click', () => {
+        offcanvasContent.classList.add('translate-x-full');
+        setTimeout(() => {
+          offcanvas.classList.add('hidden');
+        }, 300);
+      });
+  
+      // Optional: Close offcanvas if clicked outside
+      offcanvas.addEventListener('click', (e) => {
+        if (e.target === offcanvas) {
+          closeButton.click();
+        }
+      });
+  
+      // Scroll event to apply blur effect on navbar when scrolling
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 0) {
+          navbar.classList.add('backdrop-blur-lg', 'bg-transparent', 'shadow-2xl');
+  
+          for (let i = 0; i < navbarLinks.length; i++) {
+            navbarLinks[i].classList.remove('text-white');
+            navbarLinks[i].classList.add('text-teal-500');
+          }
+  
+          navbarbtn.classList.remove('text-white');
+          navbarbtn.classList.add('text-teal-500');
+        } else {
+          navbar.classList.remove('backdrop-blur-lg', 'bg-transparent', 'shadow-2xl');
+  
+          for (let i = 0; i < navbarLinks.length; i++) {
+            navbarLinks[i].classList.remove('text-teal-500');
+            navbarLinks[i].classList.add('text-white');
+          }
+  
+          navbarbtn.classList.remove('text-teal-500');
+          navbarbtn.classList.add('text-white');
+        }
+      });
+  
+  
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault(); // Mencegah perilaku default
+  
+          const targetElement = document.querySelector(this.getAttribute('href'));
+  
+          // Melakukan scroll ke elemen yang dituju dengan efek smooth
+          targetElement.scrollIntoView({
+            behavior: 'smooth',  // Scroll dengan efek smooth
+            block: 'start'       // Tempatkan elemen di bagian atas viewport
+          });
+        });
+      });
+    </script>
+    
     {% include analytics.html %}
   </body>
 </html>
